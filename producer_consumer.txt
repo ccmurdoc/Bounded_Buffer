@@ -1,0 +1,55 @@
+__________________________________
+Test Case: 1
+ Producers: 212
+ Consumers: 95
+ Sleep Time: 201 ms
+ Turn Around Time: 2051 ms
+__________________________________
+__________________________________
+Test Case: 2
+ Producers: 266
+ Consumers: 213
+ Sleep Time: 255 ms
+ Turn Around Time: 3224 ms
+__________________________________
+__________________________________
+Test Case: 3
+ Producers: 73
+ Consumers: 257
+ Sleep Time: 62 ms
+ Turn Around Time: 2847 ms
+__________________________________
+__________________________________
+Test Case: 4
+ Producers: 111
+ Consumers: 267
+ Sleep Time: 100 ms
+ Turn Around Time: 2208 ms
+__________________________________
+
+                 Results Explanation        
+
+ There are three indicators : mutex, space, and element.
+ The process waits for the appropriate semaphore to read
+ from the shared buffer to ensure a suitable buffer slot
+ exists. After the handle is gathered, the process uses
+ it to read from the buffer slot, then updates the
+ indicator and signals to the correct semaphore to inform
+ the other process bank of the changes in the buffer structure.
+ The space semaphore will mutually exclude any process in the
+ same bank from modifying the indicator associated with that
+ bank when another process is already using it. Which is known
+ as process blocking. The extra blocking causes the system
+ response delay. When the buffer-array is full the producer
+ cannot put any items into the buffer because there is no room.
+ So, the producer waits until the consumer clears space. When
+ the scheduler runs the consumer next it will remove an element
+ from the buffer, and then send a signal to the producer. The
+ producer receives the signal, and will awake and begin
+ processing again since space in the buffer is now available.
+
+ The random sleep time indicates a counter variable whose
+ contents change to reflect the amount of free buffer slots.
+ Thus, depending on the random sleep time, there will yield a
+ difference in producers and consumers because of the difference
+ in sleep vs awaken at given time upon the buffer space.
